@@ -1,0 +1,83 @@
+﻿@model University_Management_System.Models.Department
+@using System.Data
+@using System.Web.UI.HtmlControls
+@using System.Web.UI.WebControls
+@using University_Management_System.Controllers
+@using University_Management_System.Models
+
+@{
+    ViewBag.Title = "Show";
+
+    dynamic department = ViewData["DepartmentInfo"];
+
+    
+}
+
+
+@using (Html.BeginForm())
+{
+    @Html.AntiForgeryToken()
+
+    <div style="text-align:center;" class="form-horizontal">
+        <h2>List of all Department</h2>
+        <hr />
+        @*<dl class="dl-horizontal">
+            <dt>
+                @Html.DisplayNameFor(model => model.Code)
+            </dt>
+
+            <dd>
+                @Html.DisplayFor(model => model.Code, new { @class = "form-control" })
+            </dd>
+
+            <dt>
+                @Html.DisplayNameFor(model => model.Name)
+            </dt>
+
+            <dd>
+                @Html.DisplayFor(model => model.Name, new { @class = "form-control" })
+            </dd>
+
+        
+
+        </dl>*@
+
+        <table id="table" class="table table-bordered table-hover table-responsive table-striped">
+
+            <tr style="text-align: center">
+                <th style="text-align: center">Code</th>
+                <th style="text-align: center">Name</th>
+            </tr>
+
+            @if (department != null)
+            {
+                foreach (var values in department)
+                {
+                    <tr>
+                        <td>&nbsp; @values.Code</td>
+                        <td>&nbsp; @values.Name</td>
+
+                    </tr>
+                }
+            }
+            else
+            {
+                <tr>
+                    <td>Department Code not found</td>
+                    <td>Department Name not found</td>
+                </tr>
+            }
+
+
+
+        </table>
+
+
+
+
+
+
+    </div>
+}
+
+

@@ -1,0 +1,18 @@
+D:\F Drive\DOTNet\project\University Management System\University Management System\bin\University Management System.dll.config
+D:\F Drive\DOTNet\project\University Management System\University Management System\bin\University Management System.dll
+D:\F Drive\DOTNet\project\University Management System\University Management System\bin\University Management System.pdb
+D:\F Drive\DOTNet\project\University Management System\University Management System\bin\System.Web.Helpers.dll
+D:\F Drive\DOTNet\project\University Management System\University Management System\bin\System.Web.Mvc.dll
+D:\F Drive\DOTNet\project\University Management System\University Management System\bin\System.Web.Razor.dll
+D:\F Drive\DOTNet\project\University Management System\University Management System\bin\System.Web.Webpages.Deployment.dll
+D:\F Drive\DOTNet\project\University Management System\University Management System\bin\System.Web.Webpages.dll
+D:\F Drive\DOTNet\project\University Management System\University Management System\bin\System.Web.Webpages.Razor.dll
+D:\F Drive\DOTNet\project\University Management System\University Management System\bin\System.Web.Razor.xml
+D:\F Drive\DOTNet\project\University Management System\University Management System\bin\System.Web.Webpages.xml
+D:\F Drive\DOTNet\project\University Management System\University Management System\bin\System.Web.Webpages.Deployment.xml
+D:\F Drive\DOTNet\project\University Management System\University Management System\bin\System.Web.Webpages.Razor.xml
+D:\F Drive\DOTNet\project\University Management System\University Management System\bin\System.Web.Helpers.xml
+D:\F Drive\DOTNet\project\University Management System\University Management System\bin\System.Web.Mvc.xml
+D:\F Drive\DOTNet\project\University Management System\University Management System\obj\Release\University Management System.csprojResolveAssemblyReference.cache
+D:\F Drive\DOTNet\project\University Management System\University Management System\obj\Release\University Management System.dll
+D:\F Drive\DOTNet\project\University Management System\University Management System\obj\Release\University Management System.pdb

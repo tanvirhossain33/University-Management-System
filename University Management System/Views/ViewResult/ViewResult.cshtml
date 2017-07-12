@@ -1,0 +1,122 @@
+﻿@model University_Management_System.Models.ResultView
+
+@{
+    ViewBag.Title = "ViewResult";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+
+}
+
+   
+
+
+
+
+@using (Html.BeginForm())
+{
+    @Html.AntiForgeryToken()
+
+    <div class="form-horizontal" style="padding-left: 200px">
+        <h2>Show Result</h2>
+        <hr />
+        @Html.ValidationSummary(true)
+
+        <div class="form-group">
+            @Html.LabelFor(model => model.RegNoId, new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.DropDownList("RegNoId", "------Select------")
+                @Html.ValidationMessageFor(model => model.RegNoId)
+            </div>
+        </div>
+
+        <div class="form-group">
+            @Html.LabelFor(model => model.Name, new { @class = "control-label col-md-2" })
+            <div class="col-md-3">
+                @Html.TextBoxFor(model => model.Name, new { @class = "form-control" })
+                @Html.ValidationMessageFor(model => model.Name)
+            </div>
+        </div>
+
+        <div class="form-group">
+            @Html.LabelFor(model => model.Email, new { @class = "control-label col-md-2" })
+            <div class="col-md-3">
+                @Html.TextBoxFor(model => model.Email, new { @class = "form-control" })
+                @Html.ValidationMessageFor(model => model.Email)
+            </div>
+        </div>
+
+        <div class="form-group">
+            @Html.LabelFor(model => model.Department, new { @class = "control-label col-md-2" })
+            <div class="col-md-3">
+                @Html.TextBoxFor(model => model.Department, new { @class = "form-control" })
+                @Html.ValidationMessageFor(model => model.Department)
+            </div>
+        </div>
+
+        <div class="form-group">
+            <div class="col-md-offset-2 col-md-10">
+                <input type="submit" value="Make PDF" class="btn btn-default" />
+            </div>
+        </div>
+    </div>
+    <table class="table table-hover">
+        <thead>
+            <tr>
+                <th>Course Code</th>
+                <th>Name</th>
+                <th>Grade</th>
+            </tr>
+        </thead>
+        <tbody id="tableBody"></tbody>
+    </table>
+}
+
+<script type="text/javascript">
+    jQuery(document).ready(function () {
+        jQuery("#Name").prop("disabled", true);
+        jQuery("#Email").prop("disabled", true);
+        jQuery("#Department").prop("disabled", true);
+        // select RegNo Dropdown using jQuery
+        var regNoDdl = jQuery("#RegNoId");
+        regNoDdl.change(function () {
+            getData(regNoDdl.val());
+        });
+
+    });
+
+    function getData(id) {
+        jQuery.ajax({
+            type: "POST",
+            url: '@Url.Action("GetResultData", "ViewResult")',
+            contentType: "application/json; charset=utf-8",
+            data: JSON.stringify({ 'id': id }),
+            dataType: "json",
+            success: function (value) {
+                if (value != null) {
+                    jQuery("#Name").val(value.Name);
+                    jQuery("#Email").val(value.Email);
+                    jQuery("#Department").val(value.Department.Code);
+
+                    // Select table body where course result will be showen
+                    var table = jQuery("#tableBody");
+                    table.empty();
+                    if (value.StudentResults != null) {
+                        jQuery.each(value.StudentResults, function (key, val) {
+                            table.append("<tr> <td>" + val.Course.Code + "</td> <td>" + val.Course.Name + "</td> <td>" + val.Grade.GradeName + "</td> </tr>");
+                        });
+                    }
+                }
+            },
+            error: function () { alert('Error'); }
+        });
+
+    }
+
+
+
+</script>
+
+
+<script src="~/Scripts/bootstrap.js"></script>
+<script src="~/Scripts/jquery-2.2.3.min.js"></script>
+<script src="~/Scripts/jquery.validate.js"></script>
+<script src="~/Scripts/jquery.validate.unobtrusive.min.js"></script>

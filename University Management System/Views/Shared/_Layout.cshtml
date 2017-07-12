@@ -1,0 +1,142 @@
+﻿@using University_Management_System.Models
+
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="utf-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title>@ViewBag.Title - My ASP.NET Application</title>
+
+        <link href="~/Content/Site.css" rel="stylesheet" type="text/css" />
+        <link href="~/Content/bootstrap.min.css" rel="stylesheet" type="text/css" />
+        
+    </head>
+
+    <style>
+        .field-validation-error {
+            color: red
+        }
+        
+    </style>
+
+
+    <body style="background-image: url('../../Content/Images/blu.jpg'); ">
+       
+    
+        <nav class="navbar navbar-primary navbar-fixed-top bs-docs-nav" role="banner">
+            <div class="container-fluid">
+                <!-- Brand and toggle get grouped for better mobile display -->
+                <div class="navbar-header">
+                    <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1" aria-expanded="false">
+                        <span class="sr-only">Toggle navigation</span>
+                        <span class="icon-bar"></span>
+                        <span class="icon-bar"></span>
+                        <span class="icon-bar"></span>
+                    </button>
+                    <img src="/Content/Images/tanvir3.png" />
+                    @*<a class="navbar-brand" href="#">University Management System</a>*@
+                </div>
+
+                <!-- Collect the nav links, forms, and other content for toggling -->
+                <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
+                    <ul class="nav navbar-nav" style="font-size: 14px">
+                        @*<li class="active"><a href="#">Home <span class="sr-only">(current)</span></a></li>*@
+                        <li>@Html.ActionLink("Home", "Home", "Home")</li>
+                        
+
+                        <li class="dropdown">
+                            <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Department <span class="caret"></span></a>
+                            <ul class="dropdown-menu">
+
+                                <li>@Html.ActionLink("Save Department", "Save", "Department")</li>
+                                <li>@Html.ActionLink("View All Departments", "Show", "Department")</li>
+
+                            </ul>
+                        </li>
+                        <li class="dropdown">
+                            <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Course <span class="caret"></span></a>
+                            <ul class="dropdown-menu">
+
+                                <li>@Html.ActionLink("Save Course", "Save", "Course")</li>
+                                <li>@Html.ActionLink("Enroll Course", "EnrollCourse", "EnrollStudentCourse")</li>
+
+
+                            </ul>
+                        </li>
+                        <li class="dropdown">
+                            <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Teacher <span class="caret"></span></a>
+                            <ul class="dropdown-menu">
+
+                                <li>@Html.ActionLink("Add Teacher", "Save", "Teacher")</li>
+                                <li>@Html.ActionLink("Course Assign", "CourseAssign", "AssignCourse")</li>
+                                <li role="separator" class="divider"></li>
+                                <li>@Html.ActionLink("Course Assign Details", "Show", "Course")</li>
+                            </ul>
+                        </li>
+                        <li class="dropdown">
+                            <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Student <span class="caret"></span></a>
+                            <ul class="dropdown-menu">
+
+                                <li>@Html.ActionLink("Add Student", "RegStudent", "Student")</li>                                                              
+                                <li>@Html.ActionLink("Add Result", "SaveResult", "StudentResult")</li>
+                                <li role="separator" class="divider"></li>
+                                <li>@Html.ActionLink("View Result", "ViewResult", "ViewResult")</li>
+
+
+                            </ul>
+                        </li>
+                        <li class="dropdown">
+                            <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Allocate <span class="caret"></span></a>
+                            <ul class="dropdown-menu">
+
+                                <li>@Html.ActionLink("Allocate Room", "AllocateClassrooms", "AllocateClassrooms")</li>
+                                <li>@Html.ActionLink("View Allocation", "ClassSchedule", "AllocateClassrooms")</li>
+
+
+
+
+                            </ul>
+                        </li>
+                        
+                    </ul>
+
+                    <ul class="nav navbar-nav navbar-right" style="font-size: 14px">
+
+                        <li><a href="#">Register</a></li>
+
+                        <li class="dropdown">
+                            <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Login <span class="caret"></span></a>
+                            <ul class="dropdown-menu">
+                                <li><a href="#">User</a></li>
+                                <li><a href="#">User Cretion</a></li>
+                                <li><a href="#">Change Password</a></li>
+                                <li role="separator" class="divider"></li>
+                                <li><a href="#">User Migration</a></li>
+                            </ul>
+                        </li>
+                    </ul>
+                </div><!-- /.navbar-collapse -->
+            </div><!-- /.container-fluid -->
+        </nav>
+
+      
+
+
+
+            <div class="container body-content">
+                @RenderBody()
+                <hr />
+                <footer>
+                    @*<p>&copy; @DateTime.Now.Year - University Management System Application</p>*@
+                    <p>&copy;  Lazy Coder - All Rights Reserved.</p>
+                </footer>
+            </div>
+            <script src="~/Scripts/jquery-2.2.3.min.js"></script>
+            <script src="~/Scripts/bootstrap.min.js"></script>
+            <script src="~/Scripts/jquery.validate.min.js"></script>
+            <script src="~/Scripts/jquery.validate.unobtrusive.min.js"></script>
+        
+        @RenderSection("scripts", required: false)
+
+    </body>
+</html>

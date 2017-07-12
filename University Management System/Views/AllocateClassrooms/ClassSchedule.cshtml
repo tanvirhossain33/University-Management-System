@@ -1,0 +1,90 @@
+﻿@using University_Management_System.Models
+
+@{
+    ViewBag.Title = "ClassSchedule";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+    List<Department> listOfDepartments = ViewBag.ALLDepartment;
+    dynamic allocate = ViewData["AllocateInfo"];
+}
+
+
+
+@using (Html.BeginForm())
+{
+    <fieldset>
+        <h2> Show  Class Schedule</h2>
+        <hr/>
+        <div class="form-horizontal">        
+
+            <div class="form-group">
+                <div class="col-sm-2 control-label">
+                    <label for="departmentId">Department</label>
+                </div>
+                <div class="col-sm-10">
+                    <select name="departmentId" id="departmentId" class="form-control">
+                        <option value="">---Select---</option>
+                        @foreach (var department in listOfDepartments)
+                        {
+                            <option value="@department.Id">@department.Name</option>
+                        }
+                    </select>
+                </div>
+            </div>
+        </div>
+        
+        <table class="table table-bordered table-hover table-responsive table-striped" id="CourseTable">
+            <thead>
+                <tr>
+                    <th>Course Code</th>
+                    <th>Name</th>
+                    <th>Schedule Info</th>                   
+                </tr>
+            </thead>
+            <tbody id="tablebody">
+                
+            </tbody>
+        </table>
+
+        
+    </fieldset>
+}
+
+@section scripts
+{
+    <script>
+        $(document).ready(function () {
+
+            $("#departmentId").change(function () {
+                var departmentId = $("#departmentId").val();
+                var json = { deptId: departmentId };
+                $.ajax({
+                    type: "POST",
+                    url: '/AllocateClassrooms/GetAllocatedInfoForShow',
+                    contentType: "application/json; charset=utf-8",
+                    data: JSON.stringify(json),
+                    success: function (data) {
+                        $("#tablebody").empty();
+                        $.each(data, function (key, value) {
+                            if (value.FromTime == null && value.ToTime == null) {
+                                $("#tablebody").append('<tr><td>' + value.Code + '</td><td>' + value.Name + '</td><td>' + "Not Scheduled Yet" + '</td></tr>');
+                            } else {
+                                $("#tablebody").append('<tr><td>' + value.Code + '</td><td>' + value.Name + '</td><td>' + "R. No: " + value.RoomNo + ", " + value.Day + ", " + value.FromTime + " - " + value.ToTime + ";" + '</td></tr>');
+                            }
+                           
+                        });
+                    }
+                });
+            });
+
+
+        });
+    </script>
+    <script src="~/Scripts/jquery.validate.js"></script>
+
+    <script src="~/Scripts/jquery.validate.unobtrusive.js"></script>
+}
+
+<script src="~/Scripts/bootstrap.min.js"></script>
+<script src="~/Scripts/jquery-2.2.3.min.js"></script>
+<script src="~/Scripts/jquery.validate.min.js"></script>
+<script src="~/Scripts/jquery.validate.unobtrusive.min.js"></script>

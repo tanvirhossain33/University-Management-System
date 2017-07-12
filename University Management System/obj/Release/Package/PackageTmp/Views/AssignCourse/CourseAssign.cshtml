@@ -1,0 +1,235 @@
+﻿@using University_Management_System.Models
+@model University_Management_System.Models.AssignCourse
+
+@{
+    ViewBag.Title = "CourseAssign";
+    List<Department> listOfDepartments = ViewBag.listOfDepartments;
+    List<Teacher> listOfTeachers = ViewBag.listOfTeachers;
+    List<Course> listOfCourses = ViewBag.listOfCourse;
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+
+<link href="~/Content/themes/base/all.css" rel="stylesheet" />
+@using (Html.BeginForm())
+{
+    
+    @Html.AntiForgeryToken()
+
+    <div class="form-horizontal">
+        <h2>Course Assign</h2>
+        <hr />
+        <div style="padding-left: 200px">
+            <label>
+                @ViewBag.Message
+            </label>
+
+        </div>
+        @Html.ValidationSummary(true)
+
+        <div class="form-group">
+            @Html.LabelFor(model => model.DepartmentId, new {@class = "control-label col-md-2"})
+            <div class="col-sm-10">
+                @Html.DropDownListFor(model => model.DepartmentId, new SelectList(listOfDepartments, "Id", "Name"), "--Select--", new { id = "departmentId", @class = "form-control" })
+                @Html.ValidationMessageFor(model => model.DepartmentId)
+            </div>
+        </div>
+
+        <div class="form-group">
+            @Html.LabelFor(model => model.TeacherId, new {@class = "control-label col-md-2"})
+            <div class="col-sm-10">
+                @Html.DropDownListFor(model => model.TeacherId, new SelectList(Enumerable.Empty<SelectListItem>(), "Id", "Name"), "--Select--", new { id = "teacherId", @class = "form-control" })
+                @Html.ValidationMessageFor(model => model.TeacherId)
+            </div>
+        </div>
+
+        <div class="form-group">
+            @Html.LabelFor(model => model.CreditToBeTaken, new {@class = "control-label col-md-2"})
+            <div class="col-sm-10">
+                @Html.TextBoxFor(model => model.CreditToBeTaken, new { id = "CreditToBeTaken", @class = "form-control" })
+                @Html.ValidationMessageFor(model => model.CreditToBeTaken)
+            </div>
+        </div>
+
+        <div class="form-group">
+            @Html.LabelFor(model => model.RemainingCredit, new {@class = "control-label col-md-2"})
+            <div class="col-sm-10">
+                @Html.TextBoxFor(model => model.RemainingCredit, new { id = "RemainingCredit", @class = "form-control" })
+                @Html.ValidationMessageFor(model => model.RemainingCredit)
+            </div>
+        </div>
+        
+
+        <div class="form-group">
+            @Html.LabelFor(model => model.CourseCodeId, new {@class = "control-label col-md-2"})
+            <div class="col-sm-10">
+                @Html.DropDownListFor(model => model.CourseCodeId, new SelectList(Enumerable.Empty<SelectListItem>(), "Id", "Code"), "--Select--", new { id = "courseId", @class = "form-control" })
+                @Html.ValidationMessageFor(model => model.CourseCodeId)
+            </div>
+        </div>
+
+        <div class="form-group">
+            @Html.LabelFor(model => model.CourseName, new {@class = "control-label col-md-2"})
+            <div class="col-sm-10">
+                @Html.TextBoxFor(model => model.CourseName, new { id = "CourseName", @class = "form-control" })
+                @Html.ValidationMessageFor(model => model.CourseName)
+            </div>
+        </div>
+
+        <div class="form-group">
+            @Html.LabelFor(model => model.CourseCredit, new {@class = "control-label col-md-2"})
+            <div class="col-sm-10">
+                @Html.TextBoxFor(model => model.CourseCredit, new { id = "CourseCredit", @class="form-control" })
+                @Html.ValidationMessageFor(model => model.CourseCredit)
+            </div>
+        </div>
+
+        <div class="form-group">
+            <div class="col-md-offset-2 col-md-10">
+                <input type="submit" value="Assign" id="submitButton" class="btn btn-default" onclick="@Url.Action("CourseAssign","AssignCourse")"/>
+            </div>
+        </div>
+      
+       
+    </div>
+}
+
+@section scripts
+{
+    <script src="~/Scripts/jquery-2.2.3.min.js"></script>
+    <script src="~/Scripts/jquery-ui-1.11.4.min.js"></script>
+    <script src="~/Scripts/bootstrap.js"></script>
+    <script src="~/Scripts/bootstrap.min.js"></script>
+    <script src="~/Scripts/jquery.validate.min.js"></script>
+    <script src="~/Scripts/jquery.validate.unobtrusive.min.js"></script>
+    <script>
+        $(document).ready(function() {
+            $("#departmentId").change(function() {
+
+                var departmentId = $("#departmentId").val();
+                $.getJSON("../AssignCourse/GetTeacherByDepartmentId", { deptId: departmentId },
+                    function(teacherData) {
+                        var select = $("#teacherId");
+                        select.empty();
+                        select.append($('<option/>', {
+                            value: 0,
+                            text: "--select--"
+                        }));
+
+                        $.each(teacherData, function(index, itemData) {
+                          
+                            select.append($('<option/>', {
+                                value: itemData.Value,
+                                text: itemData.Text
+                            }));
+                        });
+                    });
+            });
+        });
+    </script>
+    
+    <script>
+        $(document).ready(function() {
+            $("#departmentId").change(function() {
+
+                var departmentId = $("#departmentId").val();
+                $.getJSON("../AssignCourse/GetCourseByDepartmentId", { deptId: departmentId },
+                    function(courseData) {
+                        var select = $("#courseId");
+                        select.empty();
+                        select.append($('<option/>', {
+                            value: 0,
+                            text: "--select--"
+                        }));
+
+                        $.each(courseData, function(index, itemData) {                         
+                            select.append($('<option/>', {
+                                value: itemData.Value,
+                                text: itemData.Text
+                            }));
+                        });
+                    });
+            });
+        });
+    </script>
+    
+    <script>
+        $(document).ready(function() {
+            $('#courseId').change(function() {
+                var courseId = $("#courseId").val();
+                $.getJSON("../AssignCourse/GetCourseByCourseId", { courseId: courseId },
+                    function(course) {
+
+                        $.each(course, function(index, itemData) {
+                            $("#CourseName").val(itemData.Name);
+                            $("#CourseCredit").val(itemData.Credit);
+                        });
+                    });
+            });
+
+            $('#teacherId').change(function() {
+                var teacherId = $("#teacherId").val();
+                $.getJSON("../AssignCourse/GetTeacherByTeacherId", { teacherId: teacherId },
+                    function(teacher) {
+                        $.each(teacher, function(index, itemData) {
+                            $("#CreditToBeTaken").val(itemData.Credit);
+                        });
+                    });
+            });
+        });
+    </script>
+    <script>
+        $(document).ready(function() {
+            $("#teacherId").change(function() {
+                var departmentId = $("#departmentId").val();
+                var teacherId = $("#teacherId").val();
+                var json = { teacherId: teacherId, deptId: departmentId };
+                $.ajax({
+                    type: "POST",
+                    url: '/AssignCourse/GetTeacherTakenCreditByDepartmentIdAndTeacherId',
+                    contentType: "application/json; charset=utf-8",
+                    data: JSON.stringify(json),
+                    success: function(data) {
+                        var creditToBeTaken = $("#CreditToBeTaken").val();
+                        var takenCredit = Number(data);
+                        var remainingCredit = Number(creditToBeTaken) - Number(takenCredit);
+
+                        
+                            $("#RemainingCredit").val(remainingCredit);
+                        
+                          
+                        
+
+                    }
+                });
+
+            });
+        });
+    </script>
+ <script>
+    $(document).ready(function () {
+        $('#submitButton').click(function () {
+            var val1 = parseFloat($('#RemainingCredit').val());
+            var val2 = parseFloat($('#CourseCredit').val());
+            var val = (val2 + val1) - val2;
+            // alert(val);
+            if (val2 > val1) {
+
+                var flag = confirm('Now Remaining credit is ' + val + '. Are you sure, you want to assign more credit?');
+                if (flag == false)
+                    return false;
+            }
+            return true;
+        });
+
+    });
+
+</script>
+
+}
+
+<style>
+    .field-validation-error {
+        color: red;
+    }
+</style>

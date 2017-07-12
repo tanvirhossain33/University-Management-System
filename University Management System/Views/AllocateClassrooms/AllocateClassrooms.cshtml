@@ -1,0 +1,144 @@
+﻿@using University_Management_System.Models
+@model University_Management_System.Models.AllocateClassrooms
+
+@{
+    ViewBag.Title = "AllocateClassrooms";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+    List<Department> listOfDepartments = ViewBag.ALLDepartment;
+}
+
+@*<link href="~/Content/stylesheets/wickedpicker.css" rel="stylesheet" />
+<script src="~/Scripts/wickedpicker.js"></script>
+<script src="~/Scripts/jquery-2.2.3.min.js"></script>*@
+
+@using (Html.BeginForm()) 
+{
+    @Html.AntiForgeryToken()
+    
+    <div class="form-horizontal">
+        <h2>Allocate Class Rooms</h2>
+        <hr />
+        <div style="padding-left: 200px">
+            <label>
+                @ViewBag.Message
+            </label>
+
+        </div>
+        @Html.ValidationSummary(true)
+
+        <div class="form-group">
+            @Html.LabelFor(model => model.DepartmentId, new { @class = "control-label col-md-2" })
+            <div class="col-md-3">
+                @Html.DropDownListFor(model => model.DepartmentId, new SelectList(listOfDepartments, "Id", "Name"), "--Select--", new { id = "departmentId", @class="form-control"})
+                @Html.ValidationMessageFor(model => model.DepartmentId)
+            </div>
+        </div>
+
+        <div class="form-group">
+          
+            @Html.LabelFor(model => model.CourseId, new { @class = "control-label col-md-2", SelectList = "courseId" })
+            <div class="col-md-3">
+                @Html.DropDownListFor(model => model.CourseId, new SelectList(Enumerable.Empty<SelectListItem>(), "Id", "Code"), "--Select--", new { id = "courseId", @class="form-control" })
+                @Html.ValidationMessageFor(model => model.CourseId)
+            </div>
+
+        </div>
+
+        <div class="form-group">
+           
+            @Html.LabelFor(model => model.RoomNoId, new { @class = "control-label col-md-2", SelectList = "roomId" })
+            <div class="col-md-3">
+                @Html.DropDownListFor(model => model.RoomNoId, new SelectList(ViewBag.ALLRoom, "value", "Text"), new { @class = "form-control" })
+                @Html.ValidationMessageFor(model => model.RoomNoId)
+            </div>
+        </div>
+
+        <div class="form-group">
+           
+            
+            @Html.LabelFor(model => model.DayId, new { @class = "control-label col-md-2", SelectList = "dayId" })
+            <div class="col-md-3">
+                @Html.DropDownListFor(model => model.DayId, new SelectList(ViewBag.ALLDay, "value", "Text"), new { @class = "form-control" })
+                @Html.ValidationMessageFor(model => model.DayId)
+            </div>
+        </div>
+
+        <div class="form-group">
+           
+            @Html.LabelFor(model => model.FromTime, new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                
+                @Html.EditorFor(model => model.FromTime)
+                @Html.ValidationMessageFor(model => model.FromTime)
+               
+            </div>
+        </div>
+        
+        @*<input type="text" id="timepicker" name="timepicker" class="timepicker">*@
+            <div class="form-group">
+                @Html.LabelFor(model => model.ToTime, new { @class = "control-label col-md-2" })
+                <div class="col-md-10">
+                    @Html.EditorFor(model => model.ToTime , new { @class = "form-control" })
+                    @Html.ValidationMessageFor(model => model.ToTime)
+                </div>
+            </div>
+
+        <div class="form-group">
+            <div class="col-md-offset-2 col-md-10">
+                <input type="submit" value="Allocate" class="btn btn-default" />
+            </div>
+        </div>
+        
+      
+
+    </div>
+}
+
+@section scripts
+{
+    <script type="text/javascript">
+        $('.timepicker').wickedpicker({
+            now: '8:16',
+            twentyFour: false,
+            title:
+                'My Timepicker',
+            showSeconds: true
+        });
+        //    $('.timepicker-24').wickedpicker({twentyFour: true});
+    </script>
+
+
+   
+<script>
+    $(document).ready(function () {
+        $("#departmentId").change(function () {
+
+            var departmentId = $("#departmentId").val();
+            $.getJSON("../AllocateClassrooms/GetCourseListByDeptId", { deptId: departmentId },
+                function (courseData) {
+                    var select = $("#courseId");
+                    select.empty();
+                    select.append($('<option/>', {
+                        value: 0,
+                        text: "--select--"
+                    }));
+
+                    $.each(courseData, function (index, itemData) {
+
+                        select.append($('<option/>', {
+                            value: itemData.Value,
+                            text: itemData.Text
+                        }));
+                    });
+                });
+        });
+    });
+</script>
+
+
+}
+
+<script src="~/Scripts/bootstrap.min.js"></script>
+<script src="~/Scripts/jquery-2.2.3.min.js"></script>
+<script src="~/Scripts/jquery.validate.min.js"></script>
+<script src="~/Scripts/jquery.validate.unobtrusive.min.js"></script>

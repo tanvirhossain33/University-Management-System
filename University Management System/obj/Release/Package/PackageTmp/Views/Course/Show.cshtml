@@ -1,0 +1,90 @@
+﻿@using System.Data
+@using System.Web.UI.HtmlControls
+@using System.Web.UI.WebControls
+@using University_Management_System.Controllers
+@using University_Management_System.Models
+@{
+    ViewBag.Title = "Show";
+    List<Department> listOfDepartments = ViewBag.listOfDepartments;
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+
+@using (Html.BeginForm())
+{
+    <fieldset>
+        <h2>Course Assign Details</h2>
+        <hr/>
+        <div class="form-horizontal">
+
+            @*<div class="form-group">
+                    @Html.LabelFor(x => x.DepartmentId, new { @class = "col-sm-2 control-label" })
+                    <div class="col-sm-10">
+                        @Html.DropDownListFor(x => x.DepartmentId, new SelectList(listOfDepartments, "Id", "Name"), htmlAttributes: new { @class = "form-control" })
+                        @Html.ValidationMessageFor(x => x.DepartmentId)
+                    </div>
+
+            </div>*@
+
+            <div class="form-group">
+                <div class="col-sm-2 control-label">
+                    <label for="departmentId">Department</label>
+                </div>
+                <div class="col-sm-10">
+                    <select name="departmentId" id="departmentId" class="form-control">
+                        <option value="">---Select---</option>
+                        @foreach (var department in listOfDepartments)
+                        {
+                            <option value="@department.Id">@department.Name</option>
+                        }
+                    </select>
+                </div>
+            </div>
+        </div>
+        
+        <table class="table table-bordered table-hover table-responsive table-striped" id="CourseTable">
+            <thead>
+                <tr>
+                    <th>Code</th>
+                    <th>Course Title</th>
+                    <th>Semester</th>
+                    <th>Assigned To</th>
+                </tr>
+            </thead>
+            <tbody id="tablebody">
+                
+            </tbody>
+        </table>
+
+        
+    </fieldset>
+}
+@section scripts
+{
+<script>
+        $(document).ready(function() {
+            
+            $("#departmentId").change(function() {
+                var departmentId = $("#departmentId").val();
+                var json = { deptId: departmentId };
+                $.ajax({
+                    type: "POST",
+                    url: '/Course/GetAssignInfoForShow',
+                    contentType: "application/json; charset=utf-8",
+                    data: JSON.stringify(json),
+                    success: function(data) {                     
+                        $("#tablebody").empty();
+                        $.each(data, function(key, value) {                          
+                            $("#tablebody").append('<tr><td>' + value.Code + '</td><td>' + value.Name + '</td><td>' + value.SemesterName + '</td><td>' + value.AssignTo + '</td></tr>');
+                        });
+                    }
+                });
+            });
+
+
+        });
+    </script>
+<script src="~/Scripts/jquery.validate.js"></script>
+
+<script src="~/Scripts/jquery.validate.unobtrusive.js"></script>
+}

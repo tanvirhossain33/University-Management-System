@@ -1,0 +1,117 @@
+﻿@using System.Activities.Expressions
+@using System.Data.SqlClient
+@using University_Management_System.Controllers
+@using University_Management_System.Models
+@model University_Management_System.Models.Teacher
+ @{
+    ViewBag.Title = "CourseAssign";
+}
+
+
+@using (Html.BeginForm(FormMethod.Post)) 
+{
+    @Html.AntiForgeryToken()
+    
+    <div class="form-horizontal">
+
+        <h2>Course Assign</h2>
+        <hr />
+        @Html.ValidationSummary(true)
+
+        <div class="form-group">
+            @Html.LabelFor(model => model.Department, new { @class = "control-label col-md-2",SelectList="departmentId" })
+            <div class="col-md-10" >
+                @Html.DropDownListFor( model => model.Department,new SelectList(ViewBag.allDepartments,"value","Text" ), new{@required="required"})
+                @Html.ValidationMessageFor(model => model. Department)
+            </div>
+        </div>
+
+        
+        <div class="form-group">
+            <label class="control-label col-md-2" >Teacher</label>
+            <div class="col-md-10">
+                @Html.DropDownList("Teacher", new SelectList(ViewBag.teacherlist, "value", "Text"), new { @class = "form-control" })
+                
+            </div>
+        </div>
+
+        <div class="form-group">
+            <label class="control-label col-md-2">Creadit to be Taken</label>
+            <div class="col-md-10">
+                <input type="text" id="Creadittaken" required="required" class="form-control" />
+            
+            </div>
+        </div>
+        <div class="form-group">
+            <label class="control-label col-md-2">Remaining Creadit </label>
+            <div class="col-md-10">
+                <input type="text" id="remaingCreadit"  required="required"/>
+
+            </div>
+        </div>
+        
+        
+
+        <div class="form-group">
+            <label class="control-label col-md-2">Course Creadit</label>
+            <div class="col-md-10">
+                @Html.DropDownList("Teacher", new SelectList(ViewBag.teacherlist, "value", "Text"))
+
+            </div>
+        </div>
+
+            </div>
+      
+
+     
+
+        <div class="form-group">
+            @Html.LabelFor(model => model.Credit, new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.TextBoxFor(model => model.Credit, new { @class = "form-control" })
+                @Html.ValidationMessageFor(model => model.Credit)
+            </div>
+        </div>
+
+        <div class="form-group">
+            <div class="col-md-offset-2 col-md-10">
+                <input type="submit" value="Create" class="btn btn-default" />
+            </div>
+        </div>
+ 
+}
+@*<div>
+    @Html.ActionLink("Back to List", "Home")
+</div>*@
+
+
+
+
+<script src="~/Scripts/bootstrap.min.js"></script>
+<script src="~/Scripts/jquery-2.2.3.min.js"></script>
+<script src="~/Scripts/jquery.validate.min.js"></script>
+<script src="~/Scripts/jquery.validate.unobtrusive.min.js"></script>
+ 
+@*<script type="text/javascript">
+     $(document).ready(function () {
+         $("#ViewBag.allDepartments").change(function () {
+             var dID= $(this).val();             
+             $.getJSON("../Teacher/CourseAssign", { depermentId: dID },
+                    function (data) {
+                        var select = $("#ViewBag.teacherlist ");
+                        select.empty();
+                        select.append($('<option/>', {
+                            value: 0,
+                            text: "Select a Department "
+                        }));
+                        $.each(data, function (  index, itemData) {
+                            select.append($('<option/>', {
+                                value: itemData.Value,
+                                text: itemData.Text
+                            }));
+                        });
+                    });
+         });
+     });
+</script>*@
+
